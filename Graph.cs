@@ -13,7 +13,7 @@ namespace Boost
 
 			for (int i1 = 0; i1 < VertexNum; i1++)
 				for (int i2 = i1; i2 < VertexNum; i2++)
-					if (i1 != i2) 
+					if (i1 != i2)
 						Out[i1][i2] = Out[i2][i1] = Rnd.Next(MinDist, MaxDist);
 
 			return Out;
@@ -43,8 +43,8 @@ namespace Boost
 						Visited[NowTo] = true;
 						Current = GetShortestWay(Scheme, NowTo, ToCt, OnGoing + Scheme[FromCt][NowTo], Visited);
 						Visited[NowTo] = false;
-					}		
-					
+					}
+
 					if (Current < MinDist) MinDist = Current;
 				}
 			}

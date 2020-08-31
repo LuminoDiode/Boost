@@ -1,26 +1,25 @@
 ﻿using System;
-using System.Threading;
 using System.Linq;
-using System.Collections.Generic;
 using System.Numerics;
 
 namespace Boost
 {
-	class Program
+	public class Program
 	{
 
 		static Random rnd = new Random();
 
-		static void Main(string[] args)
+		public static void Main(string[] args)
 		{
-			double[][]Mat=
+			double[][] Mat =
 			{
 				new double[]{1,2,3},
 				new double[]{4,5,6},
 				new double[]{7,8,9}
 			};
-			double Min=30, Max=20;
-			for(long i = 0; i < 100000000; i++)
+			var m = Enumerable.Range(10, 10);
+			double Min = 30, Max = 20;
+			for (long i = 0; i < 100000000; i++)
 			{
 				var temp = Gen.RanDouble(20, 30);
 				if (temp > Max) Max = temp;
@@ -32,8 +31,9 @@ namespace Boost
 			Console.WriteLine();
 			var m1 = Matrix.Clone(Mat);
 			var m2 = Matrix.RotateRight(Mat);
-			Console.WriteLine(Matrix.ToString(Matrix.GetMinor(m1,1,1)));
+			Console.WriteLine(Matrix.ToString(Matrix.GetMinor(m1, 1, 1)));
 			Console.WriteLine(foo<BigInteger>());
+
 		}
 
 		public static bool foo<T>()

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Boost
 {
@@ -23,7 +19,7 @@ namespace Boost
 		//complete f
 		public static void Reverse<T>(T[] Arr1)
 		{
-			for (int i = 0; i < Arr1.Length / 2; i++) 
+			for (int i = 0; i < Arr1.Length / 2; i++)
 				Gen.Swap(ref Arr1[i], ref Arr1[Arr1.Length - 1 - i]);
 		}
 
