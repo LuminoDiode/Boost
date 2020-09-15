@@ -74,5 +74,33 @@ namespace Boost
 			return new FileInfo(dlg.FileName);
 		}
 
+
+		public static void AddLocationToEachControl(Size AdditionLocation,params Control[]Controls)
+		{
+			for(int i = 0; i < Controls.Length; i++)
+			{
+				Controls[i].Location = Point.Add(Controls[i].Location, AdditionLocation);
+			}
+		}
+		public static void AddLocationToEachControl(Point AdditionLocation, params Control[] Controls)
+		{
+			AddLocationToEachControl(new Size(AdditionLocation), Controls);
+		}
+		public static Size Invert(Size s)
+		{
+			return new Size(-1 * s.Width, -1 * s.Height);
+		}
+		/*
+		public static Size Invert(Size s)
+		{
+			return new Size(-1 * s.Width, -1 * s.Height);
+		}
+		*/
+		public static int IntParseAny(string s)
+		{
+			int m;
+			if (int.TryParse(s, out m)) return m;
+			return 0;
+		}
 	}
 }
