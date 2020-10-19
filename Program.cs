@@ -11,29 +11,41 @@ namespace Boost
 
 		public static void Main(string[] args)
 		{
+			/*
 			double[][] Mat =
 			{
-				new double[]{1,2,3},
-				new double[]{4,5,6},
-				new double[]{7,8,9}
+				new double[]{1,1,1,1},
+				new double[]{0,0,-2,-2},
+				new double[]{0,-2,0,-2},
+				new double[]{0,0,-2,2}
 			};
-			var m = Enumerable.Range(10, 10);
-			double Min = 30, Max = 20;
-			for (long i = 0; i < 100000000; i++)
-			{
-				var temp = Gen.RanDouble(20, 30);
-				if (temp > Max) Max = temp;
-				if (temp < Min) Min = temp;
-				if (!(temp <= 30 && temp >= 20)) Console.ReadKey();
-			}
-			Console.WriteLine("Min = " + Min);
-			Console.WriteLine("Max = " + Max);
-			Console.WriteLine();
-			var m1 = Matrix.Clone(Mat);
-			var m2 = Matrix.RotateRight(Mat);
-			Console.WriteLine(Matrix.ToString(Matrix.GetMinor(m1, 1, 1)));
-			Console.WriteLine(foo<BigInteger>());
+			Console.WriteLine("Matrix : ");
+			Console.WriteLine(Matrix.ToString(Mat));
+				Console.WriteLine();
+			Console.WriteLine("Determinator : ");
+			Console.WriteLine(Matrix.GetDet(Mat));
+				Console.WriteLine();
+			Console.WriteLine("Transposed : ");
+			Console.WriteLine(Matrix.ToString(Matrix.Transpose(Mat)));
+				Console.WriteLine();
+			Console.WriteLine("Inverted : ");
+			Console.WriteLine(Matrix.ToString(Matrix.Invert(Mat)));
+		*/
 
+			int count = 0;
+			for(int i = 0; i < 10000000000; i++)
+			{
+				if (i.ToString().Length == 5)
+				{
+					if(i.ToString().All(x=> (new char[] {'1','2','3','5' }).Contains(x)))
+					{
+						if(i%4==0)
+							Console.WriteLine((++count).ToString() + ". " + i.ToString());
+					}
+				}
+			}
+
+			Console.ReadKey();
 		}
 
 		public static bool foo<T>()

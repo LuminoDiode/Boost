@@ -4,7 +4,7 @@ using System.Drawing;
 
 namespace Boost
 {
-	static partial class Matrix
+	public static partial class Matrix
 	{
 		public static bool FoolProof = true;
 
@@ -122,12 +122,11 @@ namespace Boost
 			return true;
 		}
 
-		//complete f
+		
 		public static T[] GetRow<T>(T[][] Mtr, int index)
 		{
 			return Arr.Clone(Mtr[index]);
 		}
-		//complete f
 		public static T[] GetCol<T>(T[][] Mtr, int index)
 		{
 			T[] NewArr = new T[Mtr.Length];
@@ -135,20 +134,29 @@ namespace Boost
 			return NewArr;
 		}
 
-		//complete f
-		private static void InsertRow<T>(ref T[][] Mtr, T[] NewRow, int index)
+		public static void InsertRow<T>(ref T[][] Mtr, T[] NewRow, int index)
 		{
 			for (int i = 0; i < NewRow.Length; i++)
 				Mtr[index][i] = NewRow[i];
 		}
-		//complete f
-		private static void InsertCol<T>(ref T[][] Mtr, T[] NewCol, int index)
+		public static T[][] InsertRow<T>(T[][] Mtr, T[] NewRow, int index)
 		{
-			for (int i = 0; i < NewCol.Length; i++)
+			Mtr = Clone(Mtr);
+			InsertRow(ref Mtr, NewRow, index);
+			return Mtr;
+		}
+		public static void InsertCol<T>(ref T[][] Mtr, T[] NewCol, int index)
+		{
+			for (int i = 0; i < Mtr.Length; i++)
 				Mtr[i][index] = NewCol[i];
 		}
+		public static T[][] InsertCol<T>(T[][] Mtr, T[] NewCol, int index)
+		{
+			Mtr = Clone(Mtr);
+			InsertCol(ref Mtr, NewCol, index);
+			return Mtr;
+		}
 
-		//complete f
 		public static void RotateRight<T>(ref T[][] Mtr)
 		{
 			if (FoolProof)
@@ -156,10 +164,9 @@ namespace Boost
 				if (!IsMatrix(Mtr)) throw Exceptions.NotMatrix;
 			}
 
-			int i;
 			T[][] Out = Generate<T>(Mtr[0].Length, Mtr.Length);
 
-			for (i = 0; i < Mtr.Length; i++)
+			for (int i = 0; i < Mtr.Length; i++)
 				InsertCol(ref Out, GetRow(Mtr, i), Out[0].Length - 1 - i);
 
 			Mtr = Out;
@@ -172,16 +179,12 @@ namespace Boost
 				if (!IsMatrix(Mtr)) throw Exceptions.NotMatrix;
 			}
 
-			int i;
-			T[][] Out = Generate<T>(Mtr[0].Length, Mtr.Length);
-
-			for (i = 0; i < Mtr.Length; i++)
-				InsertCol(ref Out, GetRow(Mtr, i), Out[0].Length - 1 - i);
-
-			return Out;
+			Mtr = Clone(Mtr);
+			RotateRight(ref Mtr);
+			return Mtr;
 		}
 
-		//complete f
+		
 		public static T[][] Transpose<T>(T[][] Mtr)
 		{
 			if (FoolProof)
@@ -196,6 +199,10 @@ namespace Boost
 				InsertRow(ref Out, GetCol(Mtr, i), i);
 			}
 			return Out;
+		}
+		public static void Transpose<T>(ref T[][] Mtr)
+		{
+			Mtr = Transpose(Clone(Mtr));
 		}
 
 		//complete f
