@@ -33,7 +33,7 @@ namespace Boost
 		*/
 
 			int count = 0;
-			for(int i = 0; i < 10000000000; i++)
+			for(int i = 0; i < int.MaxValue; i++)
 			{
 				if (i.ToString().Length == 5)
 				{

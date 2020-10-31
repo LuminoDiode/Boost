@@ -29,6 +29,11 @@ namespace Boost
 			=> Vals.Min();
 		public static T Max<T>(params T[] Vals) where T : IComparable
 			=> Vals.Max();
+		public static double Mid(params dynamic[] Vals)
+		{
+			double Sum = 0; for (int i = 0; i < Vals.Length; i++) Sum += Vals[i];
+			return Sum / Vals.Length;
+		}
 		public static int Mid(params int[] Vals)
 		{
 			int Sum = 0; for (int i = 0; i < Vals.Length; i++) Sum += Vals[i];

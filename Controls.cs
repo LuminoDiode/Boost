@@ -8,7 +8,7 @@ namespace Boost
 {
 	public class Controls
 	{
-		public static Panel ToVerticalLinedView(IList<Control> Controls, int space = 5)
+		public static Panel ToVerticalStackPanel(IList<Control> Controls, int space = 5)
 		{
 			// панель - пустой блок без всего
 			Panel Out = new Panel();
@@ -20,20 +20,20 @@ namespace Boost
 			for (int i = 0; i < Controls.Count; i++)
 			{
 				// Выбор положения на панели
-				Controls[i].Location = new Point(0, CurrentHeight + ((i == 0 || i == Controls.Count - 1) ? 0 : 2 * space)); 
+				Controls[i].Location = new Point(0, CurrentHeight); 
 				// Добавление на панель
 				Out.Controls.Add(Controls[i]);
 				// Учет старого элемента для определения позиции нового
-				CurrentHeight += Controls[i].Height;
+				CurrentHeight += Controls[i].Height+ (i==Controls.Count-1 ? 0:space);
 				// Саммый длинный элемент определяет длинну панели
 				if (Controls[i].Width > OutWid) OutWid = Controls[i].Width;
 			}
 			Out.Height = CurrentHeight;
-			Out.Width = OutWid;
+			Out.Width = OutWid+10;
 			Out.BackColor = Color.Transparent;
 			return Out;
 		}
-		public static Panel ToHorizontalLinedView(IList<Control> Controls, int space = 5)
+		public static Panel ToHorizontalStackPanel(IList<Control> Controls, int space = 5)
 		{
 			// панель - пустой блок без всего
 			Panel Out = new Panel();
@@ -45,11 +45,11 @@ namespace Boost
 			for (int i = 0; i < Controls.Count; i++)
 			{
 				// Выбор положения на панели
-				Controls[i].Location = new Point(CurrentWidth + ((i == 0 || i == Controls.Count - 1) ? 0 : 2 * space),0);
+				Controls[i].Location = new Point(CurrentWidth,0);
 				// Добавление на панель
 				Out.Controls.Add(Controls[i]);
 				// Учет старого элемента для определения позиции нового
-				CurrentWidth += Controls[i].Width;
+				CurrentWidth += Controls[i].Width+space;
 				// Саммый длинный элемент определяет длинну панели
 				if (Controls[i].Height > OutHei) OutHei = Controls[i].Height;
 			}
@@ -96,8 +96,25 @@ namespace Boost
 
 			public Panel GetControl()
 			{
-				return ToHorizontalLinedView(new Control[] { label, EqualsSymb, textbox });
+				return ToHorizontalStackPanel(new Control[] { label, EqualsSymb, textbox });
 			}
+		}
+
+		public static ScrollableControl ToScrollableControl(IList<Control> Controls, Size ScrollableControlSize, int space = 5, int AddSpacesAtEnd = 1)
+		{
+			ScrollableControl Out = new ScrollableControl();
+			Out.Size = ScrollableControlSize;
+			Out.AutoScroll = true;
+
+			int CurHei = space, CurWid = space;
+			for (int i = 0; i < Controls.Count; i++)
+			{
+				var temp = Controls[i];
+				temp.Location = new Point(CurWid, CurHei); CurHei += 5 + temp.Height;
+				Out.Controls.Add(temp);
+			}
+			Out.Controls.Add(new Panel { Size = new Size(0, AddSpacesAtEnd * space), Location = new Point(CurWid, CurHei) });
+			return Out;
 		}
 
 	}
