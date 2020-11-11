@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Numerics;
+using System.Windows.Forms;
 
 namespace Boost
 {
@@ -11,46 +12,20 @@ namespace Boost
 
 		public static void Main(string[] args)
 		{
-			/*
-			double[][] Mat =
-			{
-				new double[]{1,1,1,1},
-				new double[]{0,0,-2,-2},
-				new double[]{0,-2,0,-2},
-				new double[]{0,0,-2,2}
-			};
-			Console.WriteLine("Matrix : ");
-			Console.WriteLine(Matrix.ToString(Mat));
-				Console.WriteLine();
-			Console.WriteLine("Determinator : ");
-			Console.WriteLine(Matrix.GetDet(Mat));
-				Console.WriteLine();
-			Console.WriteLine("Transposed : ");
-			Console.WriteLine(Matrix.ToString(Matrix.Transpose(Mat)));
-				Console.WriteLine();
-			Console.WriteLine("Inverted : ");
-			Console.WriteLine(Matrix.ToString(Matrix.Invert(Mat)));
-		*/
-
-			int count = 0;
-			for(int i = 0; i < int.MaxValue; i++)
-			{
-				if (i.ToString().Length == 5)
-				{
-					if(i.ToString().All(x=> (new char[] {'1','2','3','5' }).Contains(x)))
-					{
-						if(i%4==0)
-							Console.WriteLine((++count).ToString() + ". " + i.ToString());
-					}
-				}
-			}
-
-			Console.ReadKey();
+			TextBox t1 = new TextBox();
+			TextBox t2 = new TextBox;
 		}
 
 		public static bool foo<T>()
 		{
 			return typeof(T) == typeof(BigInteger);
+		}
+
+		public static void Swap<T>(ref T val1,ref T val2)
+		{
+			T temp = val1;
+			val1 = val2;
+			val2 = temp;
 		}
 	}
 }
