@@ -12,8 +12,7 @@ namespace Boost
 
 		public static void Main(string[] args)
 		{
-			TextBox t1 = new TextBox();
-			TextBox t2 = new TextBox;
+
 		}
 
 		public static bool foo<T>()

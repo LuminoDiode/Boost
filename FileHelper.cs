@@ -10,12 +10,26 @@ namespace Boost
 	public class FileHelper
 	{
 		static Shell shell = new Shell();
+
 		[STAThread]
-		public static string EnsureNotShortcut(string LinkPath) =>
-			((ShellLinkObject)( // creating an instance of LinkObject
-				shell.NameSpace(LinkPath.Substring(0, LinkPath.LastIndexOf("\\"))). // Getting LinkObject folder
-				Items().Item(LinkPath.Split('\\').Last()).GetLink // getting LinkObject as file
-				)).Path; // getting original file path 
+		public static string EnsureNotShortcut(string LinkPath)
+		{
+			FolderItem ShortcutFile = shell.NameSpace(LinkPath.Substring(0, LinkPath.LastIndexOf('\\'))).Items().Item(LinkPath.Split('\\').Last());
+			if (!ShortcutFile.IsLink) return LinkPath;
+
+			ShellLinkObject ShortcutFileLinkObject;
+			try
+			{
+				ShortcutFileLinkObject = (ShellLinkObject)(ShortcutFile);
+			}
+			catch (System.InvalidCastException e)
+			{
+				Trace.WriteLine($"Error while try casting Shortcut file {LinkPath} to ShellLinkObject: " + e.Message +"; Shortcut path will be returned.");
+				return LinkPath;
+			}
+
+			return ShortcutFileLinkObject.Path;
+		}
 		
 
 		/*
