@@ -65,6 +65,10 @@ namespace Boost
 			for (int i = 0; i < Controls.Count; i++) if (Controls[i].Width > MaxWidth) MaxWidth = Controls[i].Width;
 			for (int i = 0; i < Controls.Count; i++) Controls[i].Width = MaxWidth;
 		}
+		public static void ToSameWidth(IList<Control> Controls,int Width)
+		{
+			for (int i = 0; i < Controls.Count; i++) Controls[i].Width = Width;
+		}
 		public static void ToSameWidth(params Control[] Controls)
 		{
 			ToSameWidth(Controls as IList<Control>);

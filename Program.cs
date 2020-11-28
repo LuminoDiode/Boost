@@ -5,14 +5,14 @@ using System.Windows.Forms;
 
 namespace Boost
 {
-	public class Program
+	public static class Program
 	{
 
 		static Random rnd = new Random();
 
 		public static void Main(string[] args)
 		{
-
+			
 		}
 
 		public static bool foo<T>()

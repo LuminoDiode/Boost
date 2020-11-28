@@ -1,8 +1,9 @@
 ﻿using System;
-
+using System.Linq;
+#pragma warning disable CA1062
 namespace Boost
 {
-	partial class Arr
+	public static partial class Arr
 	{
 		private static Random Rnd = new Random();
 
@@ -15,6 +16,36 @@ namespace Boost
 				Out[i] = Arr1[Arr1.Length - 1 - i];
 
 			return Out;
+		}
+		public static T[][] AllCombinationsOfElements<T>(in T[] OriginalArray)
+		{
+			T[][] Out = new T[Fact(OriginalArray.Length)][];
+			int CurrentOutId=0;
+			AllCombinationsOfElements(OriginalArray, new T[OriginalArray.Length], new bool[OriginalArray.Length], 0, ref Out, ref CurrentOutId);
+			return Out;
+		}
+		public static void AllCombinationsOfElements<T>(T[] OriginalArray, T[] OnGoing, bool[] ElementUsed, int CurrentId, ref T[][] ArrayCollector, ref int CurrentAddingId)
+		{
+			if (CurrentId==OnGoing.Length) { ArrayCollector[CurrentAddingId++] = Arr.Clone(OnGoing); return;}
+
+			for (int i = 0; i < OriginalArray.Length; i++)
+			{
+				if (!ElementUsed[i])
+				{
+					OnGoing[CurrentId] = OriginalArray[i];
+
+					ElementUsed[i] = true;
+					AllCombinationsOfElements(OriginalArray, OnGoing, ElementUsed, CurrentId+1, ref ArrayCollector, ref CurrentAddingId);
+					ElementUsed[i] = false;
+				}
+			}
+		}
+
+		public static int Fact(int val)
+		{
+			int result = 1;
+			for (int i = 2; i <= val; i++) result *= i;
+			return result;
 		}
 		//complete f
 		public static void Reverse<T>(T[] Arr1)
