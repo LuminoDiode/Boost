@@ -8,12 +8,16 @@ namespace Boost
 	{
 		public static bool FoolProof = true;
 
-		public static class Exceptions
+		public  class Exceptions
 		{
+			public class NotMatrixException : ArgumentException{
+				public override string Message => base.Message;
+			}
+
 			public static readonly ArgumentException NotNumeric = new
 				ArgumentException("Данная операция допустима только для матриц числового типа.");
 			public static readonly FormatException NotMatrix = new
-				FormatException("Передан jagged array, хотя ожидалась матрица.");
+				FormatException("Passed jagged array has non-constant row length.");
 			public static readonly ArgumentException NotMultable = new
 				ArgumentException("Умножение переданных матриц невозможно. Количество строк первой матрицы должно быть равно количеству столбцов второй.");
 			public static readonly ArgumentException NotSumable = new
@@ -54,10 +58,10 @@ namespace Boost
 			return Out;
 		}
 		//complete f
-		public static T[][] Generate<T>(int Len1, int Len2)
+		public static T[][] Generate<T>(int Rows, int Cols)
 		{
-			T[][] Out = new T[Len1][];
-			for (int i = 0; i < Len1; i++) Out[i] = new T[Len2];
+			T[][] Out = new T[Rows][];
+			for (int i = 0; i < Rows; i++) Out[i] = new T[Cols];
 			return Out;
 		}
 
@@ -75,7 +79,7 @@ namespace Boost
 		}
 
 		//complete f
-		private static bool IsMatrix<T>(params T[][][] Mtrs)
+		public static bool IsMatrix<T>(params T[][][] Mtrs)
 		{
 			int i1, i2;
 

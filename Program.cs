@@ -7,24 +7,9 @@ namespace Boost
 {
 	public static class Program
 	{
-
-		static Random rnd = new Random();
-
-		public static void Main(string[] args)
+		public static void Main()
 		{
 			
-		}
-
-		public static bool foo<T>()
-		{
-			return typeof(T) == typeof(BigInteger);
-		}
-
-		public static void Swap<T>(ref T val1,ref T val2)
-		{
-			T temp = val1;
-			val1 = val2;
-			val2 = temp;
 		}
 	}
 }

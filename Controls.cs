@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Linq;
+using System.Windows.Forms.VisualStyles;
 
 namespace Boost
 {
-	public class Controls
+	public static class Controls
 	{
-		public static Panel ToVerticalStackPanel(IList<Control> Controls, int space = 5)
+		public static Panel ToVerticalStackPanel(IList<Control> Controls, int space = 0)
 		{
 			// панель - пустой блок без всего
 			Panel Out = new Panel();
@@ -20,16 +22,16 @@ namespace Boost
 			for (int i = 0; i < Controls.Count; i++)
 			{
 				// Выбор положения на панели
-				Controls[i].Location = new Point(0, CurrentHeight); 
+				Controls[i].Location = new Point(0, CurrentHeight);
 				// Добавление на панель
 				Out.Controls.Add(Controls[i]);
 				// Учет старого элемента для определения позиции нового
-				CurrentHeight += Controls[i].Height+ (i==Controls.Count-1 ? 0:space);
+				CurrentHeight += Controls[i].Height + space;
 				// Саммый длинный элемент определяет длинну панели
 				if (Controls[i].Width > OutWid) OutWid = Controls[i].Width;
 			}
-			Out.Height = CurrentHeight;
-			Out.Width = OutWid+10;
+			Out.Height = CurrentHeight-space;
+			Out.Width = OutWid;
 			Out.BackColor = Color.Transparent;
 			return Out;
 		}
@@ -45,11 +47,11 @@ namespace Boost
 			for (int i = 0; i < Controls.Count; i++)
 			{
 				// Выбор положения на панели
-				Controls[i].Location = new Point(CurrentWidth,0);
+				Controls[i].Location = new Point(CurrentWidth, 0);
 				// Добавление на панель
 				Out.Controls.Add(Controls[i]);
 				// Учет старого элемента для определения позиции нового
-				CurrentWidth += Controls[i].Width+space;
+				CurrentWidth += Controls[i].Width + space;
 				// Саммый длинный элемент определяет длинну панели
 				if (Controls[i].Height > OutHei) OutHei = Controls[i].Height;
 			}
@@ -61,11 +63,11 @@ namespace Boost
 
 		public static void ToSameWidth(IList<Control> Controls)
 		{
-			int MaxWidth=0;
+			int MaxWidth = 0;
 			for (int i = 0; i < Controls.Count; i++) if (Controls[i].Width > MaxWidth) MaxWidth = Controls[i].Width;
 			for (int i = 0; i < Controls.Count; i++) Controls[i].Width = MaxWidth;
 		}
-		public static void ToSameWidth(IList<Control> Controls,int Width)
+		public static void ToSameWidth(IList<Control> Controls, int Width)
 		{
 			for (int i = 0; i < Controls.Count; i++) Controls[i].Width = Width;
 		}
@@ -76,7 +78,7 @@ namespace Boost
 
 		class VarInputField
 		{
-			private static readonly Label EqualsSymb = new Label { Text = "=" }; 
+			private static readonly Label EqualsSymb = new Label { Text = "=" };
 			private Label label = new Label();
 			private TextBox textbox = new TextBox();
 
@@ -119,6 +121,67 @@ namespace Boost
 			}
 			Out.Controls.Add(new Panel { Size = new Size(0, AddSpacesAtEnd * space), Location = new Point(CurWid, CurHei) });
 			return Out;
+		}
+
+	}
+	class ScrollableStackPanel
+	{
+		private ScrollableControl MainControl;
+		private List<Control> Controls;
+		public bool UpToDateRendered;
+		public int Width => MainControl.Width;
+		public int Height => MainControl.Height;
+		public int NumberOfControls => Controls.Count;
+		public Point LowestElementLocation
+		{
+			get
+			{
+				return Controls.Count == 0 ? new Point(0, 0) : Controls.Last().Location;
+			}
+		}
+		public Size LowestElementSize
+		{
+			get
+			{
+				return Controls.Count == 0 ? new Size(0, 0) : Controls.Last().Size;
+			}
+		}
+		public Point LowestPointOfControls
+		{
+			get
+			{
+				return Point.Add(LowestElementLocation, LowestElementSize);
+			}
+		}
+
+		public ScrollableControl ToControl() => this.MainControl;
+		public static explicit operator ScrollableControl(ScrollableStackPanel ssp) => ssp.MainControl;
+
+		public ScrollableStackPanel()
+		{
+			this.MainControl = new ScrollableControl();
+			this.Controls = new List<Control>();
+		}
+		public void AddControl(Control Cntrl, int position = int.MaxValue)
+		{
+			UpToDateRendered = false;
+		}
+		public virtual Control GetControl(int Index)
+		{
+			return Controls[Index];
+		}
+		public void MoveControl(int OldIndex, int NewIndex)
+		{
+			if (OldIndex == NewIndex) return;
+			if (OldIndex >= NumberOfControls || NewIndex >= NumberOfControls || OldIndex < 0 || NewIndex > 0) throw new IndexOutOfRangeException();
+			UpToDateRendered = false;
+
+
+		}
+		public  void Render()
+		{
+
+			UpToDateRendered = true;
 		}
 
 	}
