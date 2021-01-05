@@ -8,7 +8,7 @@ namespace Boost
 	{
 		public static bool FoolProof = true;
 
-		public  class Exceptions
+		public class Exceptions
 		{
 			public class NotMatrixException : ArgumentException{
 				public override string Message => base.Message;
@@ -79,7 +79,7 @@ namespace Boost
 		}
 
 		//complete f
-		public static bool IsMatrix<T>(params T[][][] Mtrs)
+		public static bool RawsLengthEquals<T>(params T[][][] Mtrs)
 		{
 			int i1, i2;
 
@@ -165,7 +165,7 @@ namespace Boost
 		{
 			if (FoolProof)
 			{
-				if (!IsMatrix(Mtr)) throw Exceptions.NotMatrix;
+				if (!RawsLengthEquals(Mtr)) throw Exceptions.NotMatrix;
 			}
 
 			T[][] Out = Generate<T>(Mtr[0].Length, Mtr.Length);
@@ -180,7 +180,7 @@ namespace Boost
 		{
 			if (FoolProof)
 			{
-				if (!IsMatrix(Mtr)) throw Exceptions.NotMatrix;
+				if (!RawsLengthEquals(Mtr)) throw Exceptions.NotMatrix;
 			}
 
 			Mtr = Clone(Mtr);
@@ -193,7 +193,7 @@ namespace Boost
 		{
 			if (FoolProof)
 			{
-				if (!IsMatrix(Mtr)) throw Exceptions.NotMatrix;
+				if (!RawsLengthEquals(Mtr)) throw Exceptions.NotMatrix;
 			}
 
 			T[][] Out = new T[Mtr[0].Length][];
@@ -214,7 +214,7 @@ namespace Boost
 		{
 			if (FoolProof)
 			{
-				if (!IsMatrix(Mtr)) throw Exceptions.NotMatrix;
+				if (!RawsLengthEquals(Mtr)) throw Exceptions.NotMatrix;
 			}
 
 			T[] Out;
@@ -250,7 +250,7 @@ namespace Boost
 		{
 			if (FoolProof)
 			{
-				if (!IsMatrix(Mtr)) throw Exceptions.NotMatrix;
+				if (!RawsLengthEquals(Mtr)) throw Exceptions.NotMatrix;
 			}
 
 			T[] Out;
@@ -288,7 +288,7 @@ namespace Boost
 			if (FoolProof)
 			{
 				if (!Gen.IsNumeric<T>()) throw Exceptions.NotNumeric;
-				if (!IsMatrix(Mtr)) throw Exceptions.NotMatrix;
+				if (!RawsLengthEquals(Mtr)) throw Exceptions.NotMatrix;
 			}
 
 			T[][] Out = new T[Mtr.Length - 1][];
@@ -322,7 +322,7 @@ namespace Boost
 			if (FoolProof)
 			{
 				if (!Gen.IsNumeric<T>()) throw Exceptions.NotNumeric;
-				if (!IsMatrix(Mtr)) throw Exceptions.NotMatrix;
+				if (!RawsLengthEquals(Mtr)) throw Exceptions.NotMatrix;
 				if (!IsSquare(Mtr)) throw Exceptions.NotSquare;
 			}
 
@@ -348,7 +348,7 @@ namespace Boost
 			if (FoolProof)
 			{
 				if (!Gen.IsNumeric<T>()) throw Exceptions.NotNumeric;
-				if (!IsMatrix(Mtr)) throw Exceptions.NotMatrix;
+				if (!RawsLengthEquals(Mtr)) throw Exceptions.NotMatrix;
 			}
 			return ((row + col) % 2 == 0 ? 1 : -1) * GetDet(GetMinor(Mtr, row, col));
 		}
@@ -358,7 +358,7 @@ namespace Boost
 		{
 			if (FoolProof)
 			{
-				if (!IsMatrix(Mtr)) throw Exceptions.NotMatrix;
+				if (!RawsLengthEquals(Mtr)) throw Exceptions.NotMatrix;
 				if (!IsSquare(Mtr)) throw Exceptions.NotSquare;
 			}
 
@@ -381,7 +381,7 @@ namespace Boost
 			if (FoolProof)
 			{
 				if (!Gen.IsNumeric<T>()) throw Exceptions.NotNumeric;
-				if (!IsMatrix(Mtr)) throw Exceptions.NotMatrix;
+				if (!RawsLengthEquals(Mtr)) throw Exceptions.NotMatrix;
 				if (!IsSquare(Mtr)) throw Exceptions.NotSquare;
 			}
 
@@ -405,7 +405,7 @@ namespace Boost
 			if (FoolProof)
 			{
 				if (!Gen.IsNumeric<T>()) throw Exceptions.NotNumeric;
-				if (!IsMatrix(Mtrs)) throw Exceptions.NotMatrix;
+				if (!RawsLengthEquals(Mtrs)) throw Exceptions.NotMatrix;
 				if (!IsSumAble(Mtr1, Mtr2, Mtrs)) throw Exceptions.NotSumable;
 			}
 
@@ -429,12 +429,32 @@ namespace Boost
 			return Out;
 		}
 
+		public static void Copy<T>(ref T[][] CopyFrom, ref T[][] CopyTo)
+		{
+			// no one raw is null validation
+			// demensions equals validation
+
+
+			for(int i1 = 0; i1<CopyFrom.Length;i1++)
+				for (int i2 = 0; i2 < CopyFrom[i1].Length; i2++)
+					CopyTo[i1][i2] = CopyFrom[i1][i2];
+		}
+
+		public static T[][] ToJugged<T>(T[,] Mtr)
+		{
+			T[][] Out = Generate<T>(Mtr.GetLength(0), Mtr.GetLength(1));
+			for(int i1 =0;i1< Mtr.GetLength(0);i1++)
+				for (int i2 = 0; i2 < Mtr.GetLength(1); i2++)
+					Out[i1][i2] = Mtr[i1,i2];
+			return Out;
+		}
+
 		public static T[][] Mult<T>(T[][] Mtr1, T[][] Mtr2)
 		{
 			if (FoolProof)
 			{
 				if (!Gen.IsNumeric<T>()) throw Exceptions.NotNumeric;
-				if (!IsMatrix(Mtr1, Mtr2)) throw Exceptions.NotMatrix;
+				if (!RawsLengthEquals(Mtr1, Mtr2)) throw Exceptions.NotMatrix;
 				if (!IsMultAble(Mtr1, Mtr2)) throw Exceptions.NotMultable;
 			}
 

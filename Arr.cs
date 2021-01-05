@@ -55,7 +55,7 @@ namespace Boost
 		}
 
 		//complete f
-		public static void Copy<T>(T[] CopyFrom, T[] CopyTo)
+		public static void Copy<T>(T[] CopyFrom, ref T[] CopyTo)
 		{
 			for (int i = 0; i < CopyTo.Length && i < CopyFrom.Length; i++) CopyTo[i] = CopyFrom[i];
 		}
