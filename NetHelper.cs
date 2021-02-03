@@ -16,20 +16,16 @@ using System.Diagnostics.Tracing;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using HtmlAgilityPack;
-using Boost;
+using OpenQA.Selenium.Chrome;
 
 
 #pragma warning disable CA1303
 
 namespace Boost
 {
-	public class NetHelper
+	public sealed class NetHelper
 	{
-		public static void AutorizeWebClientFor2ch(WebClient wc)
-		{
-
-		}
-
+		/*
 		public static HtmlDocument GetPageByChromeDriver(Uri PageUrl) => GetPageByChromeDriver(PageUrl.AbsoluteUri);
 		public static HtmlDocument GetPageByChromeDriver(string PageUrl)
 		{
@@ -50,6 +46,22 @@ namespace Boost
 
 			return Out;
 		}
+		
+
+		public static string GetRequestCookies(Uri SiteUri)
+		{
+			ChromeDriver ChrDrv = new ChromeDriver{Url = SiteUri.AbsoluteUri};
+			_ =ChrDrv.Manage().Timeouts().ImplicitWait;
+			var Out= ChrDrv.Manage().Cookies.AllCookies.Select(x => x.Name + ':' + x.Value + ';').Aggregate((x,y)=>x+y);
+			ChrDrv.Close(); return Out;
+		}
+
+		public static string GetPageByOpening(Uri PageUri) =>
+			(new ChromeDriver {Url = PageUri.AbsoluteUri}).FindElementByTagName("body").Text;
+
+		public static void OpenInChrome(Uri PageUri) => new ChromeDriver {Url = PageUri.AbsoluteUri};
+
+		*/
 
 		public static long GetFileSizeByFtp(Uri FileUri)
 		{
@@ -69,19 +81,34 @@ namespace Boost
 			return HttpReq.GetResponse().ContentLength;
 		}
 
-		public static long TryGetFileSize(Uri FileUri)
+
+		public static long GetFileSize(Uri FileUri)
 		{
+			Trace.WriteLine("Trying to get file size of " + FileUri.AbsoluteUri);
 			try
 			{
 				return GetFileSizeByFtp(FileUri);
 			}
-			catch (WebException we)
+			catch (WebException)
+			{
+				return GetFileSizeByHttp(FileUri);
+			}
+		}
+
+		public static long TryGetFileSize(Uri FileUri)
+		{
+			Trace.WriteLine("Trying to get file size of "+ FileUri.AbsoluteUri);
+			try
+			{
+				return GetFileSizeByFtp(FileUri);
+			}
+			catch (WebException)
 			{
 				try
 				{
 					return GetFileSizeByHttp(FileUri);
 				}
-				catch (WebException we1)
+				catch (WebException)
 				{
 					return -1;
 				}
@@ -94,7 +121,9 @@ namespace Boost
 			public Queue<UriFileSize> DownloadQueue;
 			public DirectoryInfo TargetDirectory;
 
+			public bool AutoStart = false;
 
+			
 
 			public bool IsBusy
 			{
@@ -106,9 +135,18 @@ namespace Boost
 
 			public ParallelFileDownloader(ICollection<Uri> FileUris, DirectoryInfo DownloadDirectory, WebClient[] WCs = null)
 			{
+				
+
+				Trace.WriteLine("In downloader constructor");
 				this.DownloadQueue = TryBuildQueueByFileSize(FileUris);
+				Trace.WriteLine("Queue builded");
 				this.TargetDirectory = DownloadDirectory;
 				this.WebClients = WCs == null ? new WebClient[3] : WCs;
+				Trace.WriteLine("Constructor end");
+				for (int i = 0; i < WCs.Length; i++)
+				{
+					WCs[i].DownloadFileCompleted += WebClientDownloadCompleteTakeNext;
+				}
 			}
 
 
@@ -144,7 +182,6 @@ namespace Boost
 					if (DownloadQueue.Count > 0)
 					{
 						TakeDownload(ThisWebClient);
-						NowFilesDownloading++;
 					}
 				}
 			}

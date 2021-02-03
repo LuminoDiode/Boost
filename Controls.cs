@@ -30,8 +30,8 @@ namespace Boost
 				// Саммый длинный элемент определяет длинну панели
 				if (Controls[i].Width > OutWid) OutWid = Controls[i].Width;
 			}
-			Out.Height = CurrentHeight-space;
-			Out.Width = OutWid;
+			Out.Height = Controls.Last().Location.Y+ Controls.Last().Height;
+			Out.Width = Controls.Max(x=>x.Width);
 			Out.BackColor = Color.Transparent;
 			return Out;
 		}
