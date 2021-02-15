@@ -116,11 +116,11 @@ namespace Boost
 
 			return Out;
 		}
-		public static void BinaryInsert<T>(ref T[] SortedArr, T Obj) where T : IComparable
+		public static void BinaryInsert<T>(ref T[] SortedArr, T Obj) where T : IComparable<T>
 		{
 			Insert(ref SortedArr, Obj, Binary.InsertionIndex(SortedArr, Obj));
 		}
-		public static T[] BinaryInserted<T>(T[] SortedArr, T Obj) where T : IComparable
+		public static T[] BinaryInserted<T>(T[] SortedArr, T Obj) where T : IComparable<T>
 		{
 			return Inserted(SortedArr, Obj, Binary.InsertionIndex(SortedArr, Obj));
 		}

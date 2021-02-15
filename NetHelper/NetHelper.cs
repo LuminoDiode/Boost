@@ -23,7 +23,7 @@ using OpenQA.Selenium.Chrome;
 
 namespace Boost
 {
-	public sealed class NetHelper
+	public sealed partial class NetHelper
 	{
 		/*
 		public static HtmlDocument GetPageByChromeDriver(Uri PageUrl) => GetPageByChromeDriver(PageUrl.AbsoluteUri);
@@ -115,104 +115,6 @@ namespace Boost
 			}
 		}
 
-		public class ParallelFileDownloader
-		{
-			public WebClient[] WebClients;
-			public Queue<UriFileSize> DownloadQueue;
-			public DirectoryInfo TargetDirectory;
-
-			public bool AutoStart = false;
-
-			
-
-			public bool IsBusy
-			{
-				get => WebClients.Any(wc => wc.IsBusy);
-			}
-
-			public int NowFilesDownloading = 0;
-
-
-			public ParallelFileDownloader(ICollection<Uri> FileUris, DirectoryInfo DownloadDirectory, WebClient[] WCs = null)
-			{
-				
-
-				Trace.WriteLine("In downloader constructor");
-				this.DownloadQueue = TryBuildQueueByFileSize(FileUris);
-				Trace.WriteLine("Queue builded");
-				this.TargetDirectory = DownloadDirectory;
-				this.WebClients = WCs == null ? new WebClient[3] : WCs;
-				Trace.WriteLine("Constructor end");
-				for (int i = 0; i < WCs.Length; i++)
-				{
-					WCs[i].DownloadFileCompleted += WebClientDownloadCompleteTakeNext;
-				}
-			}
-
-
-			public void BeginDownloadAsync()
-			{
-				for (int i = 0; i < WebClients.Length; i++)
-				{
-					lock (DownloadQueue)
-					{
-						if (DownloadQueue.Count > 0)
-						{
-							TakeDownload(WebClients[i]);
-						}
-					}
-				}
-			}
-
-			public void BeginDownloadSync()
-			{
-				this.BeginDownloadAsync();
-
-				while (this.IsBusy && DownloadQueue.Count > 0) Thread.Sleep(10);
-			}
-
-			private void WebClientDownloadCompleteTakeNext(object sender, EventArgs e)
-			{
-				NowFilesDownloading--;
-
-				WebClient ThisWebClient = (WebClient)sender;
-
-				lock (DownloadQueue)
-				{
-					if (DownloadQueue.Count > 0)
-					{
-						TakeDownload(ThisWebClient);
-					}
-				}
-			}
-
-			private void TakeDownload(WebClient wc)
-			{
-				if (DownloadQueue.Count > 0)
-				{
-					FileInfo NewFileInfo = GenerateFileInfoByUri(TargetDirectory, DownloadQueue.Peek().FileUri);
-					NewFileInfo.Directory.Create();
-
-					wc.DownloadFileAsync(DownloadQueue.Dequeue().FileUri, NewFileInfo.FullName);
-
-					NowFilesDownloading++;
-				}
-			}
-
-			private static FileInfo GenerateFileInfoByUri(DirectoryInfo TargetDirectory, Uri FileUri)
-				=> new FileInfo(TargetDirectory.FullName + '\\' + FileUri.AbsoluteUri.Split('/').Last());
-
-			private static Queue<UriFileSize> TryBuildQueueByFileSize(ICollection<Uri> FileUris)
-				=> new Queue<UriFileSize>(FileUris.Select(x => new UriFileSize() { FileUri = x, FileSize = TryGetFileSize(x) })
-					.OrderBy(x => x.FileSize));
-
-
-			public struct UriFileSize
-			{
-				public Uri FileUri;
-				public long FileSize;
-			}
-
-		}
+		
 	}
 }

@@ -23,7 +23,7 @@ namespace Boost
 		/// Возвращает индекс, на который следует вставить в сортированную коллекцию
 		/// переданный элемент, что бы сохранить сортировку.
 		/// </summary>
-		public static int InsertionIndex<T>(IList<T> Arr, T Val) where T : IComparable //Debugged
+		public static int InsertionIndex<T>(IList<T> Arr, T Val) where T : IComparable<T> //Debugged
 		{
 			if (Val.CompareTo(Arr[0]) <= 0) return 0;
 
