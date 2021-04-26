@@ -2,7 +2,7 @@
 
 namespace Boost
 {
-	class Graph
+	partial class Graph
 	{
 		private static Random Rnd = new Random();
 		public const int NO_WAY = int.MinValue;

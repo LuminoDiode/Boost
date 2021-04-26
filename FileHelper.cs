@@ -7,15 +7,24 @@ using Shell32;
 
 namespace Boost
 {
-	public class FileHelper
+	public static class FileHelper
 	{
 		static Shell shell = new Shell();
 
 		[STAThread]
 		public static string EnsureNotShortcut(string LinkPath)
 		{
-			FolderItem ShortcutFile = shell.NameSpace(LinkPath.Substring(0, LinkPath.LastIndexOf('\\'))).Items().Item(LinkPath.Split('\\').Last());
-			if (!ShortcutFile.IsLink) return LinkPath;
+			FolderItem ShortcutFile = null;
+			try
+			{
+				ShortcutFile = shell.NameSpace(LinkPath.Substring(0, LinkPath.LastIndexOf('\\'))).Items().Item(LinkPath.Split('\\').Last());
+				if (!ShortcutFile.IsLink) return LinkPath;
+			}
+			catch
+			{
+				Trace.WriteLine("Unexpected error for " + LinkPath);
+				return LinkPath;
+			}
 
 			ShellLinkObject ShortcutFileLinkObject;
 			try

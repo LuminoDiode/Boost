@@ -14,22 +14,15 @@ namespace Boost
 		static extern bool AllocConsole();
 		public static void Main()
 		{
-			AllocConsole();
-			var Arr = new int[] { 1, 2, 3, 4, 5, 6, 7 };
-			int M = 6;
-			Console.WriteLine(string.Join(',',Boost.Arr.AllCombinationsOfElements("22344".ToCharArray()).Select(x=>int.Parse(new string(x))).Distinct()));
+			Graph.Vertex v1 = new Graph.Vertex();
+			Graph.Vertex v2 = new Graph.Vertex();
+			Graph.Vertex v3 = new Graph.Vertex();
 
-			var temp = Arr.Where(x => x > M);
-			if (Arr.Max() <= M)
-			{
-				/*write message to user*/
-			}
-			else
-			{
-				Console.WriteLine(Arr.Where(x => x > M).Aggregate((x, y) => x * y));}
+			v1.SetDistanceToVertex(v2, 100);
+			v1.SetDistanceToVertex(v3, 300);
+			v2.SetDistanceToVertex(v3, 50);
 
-
-			Console.ReadKey();
+			Console.WriteLine(Graph.GetShortestWay(v1, v3));
 		}
 	}
 }
