@@ -39,7 +39,7 @@ namespace Boost
 			ByName = 2
 		}
 
-		private static int GetShortestWay(
+		public static int GetShortestWay(
 		in Vertex CurrentVertex,
 		in Vertex DestinationVertex,
 		int OnGoing=0,
