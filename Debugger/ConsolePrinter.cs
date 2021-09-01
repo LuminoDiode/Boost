@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 
-namespace Boost.Debugger
+namespace Boost
 {
 	class AdvancedConsoleManager
 	{
@@ -50,8 +50,8 @@ namespace Boost.Debugger
 			set
 			{
 				if (_ConsoleListeningTrace == value) return;
-				if (value == false) { Trace.Listeners.Remove(DefaultConsoleTraceListener); return; }
-				if (value == true) { Trace.Listeners.Add(new ConsoleTraceListener { Name = DefaultConsoleTraceListener }); return; }
+				if (value == false) { Trace.Listeners.Remove(DefaultConsoleTraceListener); _ConsoleListeningTrace = value;  return; }
+				if (value == true) { Trace.Listeners.Add(new ConsoleTraceListener { Name = DefaultConsoleTraceListener }); _ConsoleListeningTrace = value; return; }
 			}
 		}
 
@@ -115,5 +115,7 @@ namespace Boost.Debugger
 			this.Write("Error", ConsoleColor.Red);
 			return string.Empty;
 		}
+
+		
 	}
 }

@@ -14,6 +14,11 @@ namespace Boost
 		static extern bool AllocConsole();
 		public static void Main()
 		{
+			Console.WriteLine(new AdvancedConsoleManager().GreenTrace + " Some Info");
+			Console.WriteLine(new AdvancedConsoleManager().RedError + " Some Info");
+			Console.WriteLine(new AdvancedConsoleManager().YellowWarning + " Some Info");
+			Console.WriteLine(new AdvancedConsoleManager().MagentaDebug + " Some Info");
+			new AdvancedConsoleManager().Write("Some info\n", ConsoleColor.Cyan);
 			Graph.Vertex v1 = new Graph.Vertex();
 			Graph.Vertex v2 = new Graph.Vertex();
 			Graph.Vertex v3 = new Graph.Vertex();
