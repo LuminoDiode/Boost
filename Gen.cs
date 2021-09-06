@@ -107,5 +107,6 @@ namespace Boost
 			if (int.TryParse(s, out m)) return m;
 			return 0;
 		}
+
 	}
 }

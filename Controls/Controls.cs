@@ -127,6 +127,12 @@ namespace Boost
 			}
 			return max;
 		}
+		public static Control[] ControlCollectionToArray(Control.ControlCollection collection)
+		{
+			var Out = new Control[collection.Count];
+			for (int i = 0;i<collection.Count;i++) Out[i] = collection[i];
+			return Out;
+		}
 
 	}
 	

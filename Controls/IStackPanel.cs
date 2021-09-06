@@ -19,16 +19,6 @@ namespace Boost
 			protected ScrollableControl MainControl;
 			public ScrollableControl AsControl => this.MainControl;
 
-			protected bool _Scrollable;
-			public bool Scrollable
-			{
-				get => this.MainControl.AutoScroll;
-				set
-				{
-					this.MainControl.AutoScroll = value;
-				}
-			}
-
 			/// <summary>
 			/// Для самого низкорасположенного контрола возвращает нижний правый угол
 			/// </summary>
@@ -57,6 +47,18 @@ namespace Boost
 			public Control GetControl(int Index)
 			{
 				return this.MainControl.Controls[Index];
+			}
+		}
+		public abstract class IScrollableStackPanel:IStackPanel
+		{
+			protected bool _Scrollable;
+			public bool Scrollable
+			{
+				get => this.MainControl.AutoScroll;
+				set
+				{
+					this.MainControl.AutoScroll = value;
+				}
 			}
 		}
 	}

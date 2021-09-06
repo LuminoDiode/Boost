@@ -10,7 +10,7 @@ namespace Boost
 {
 	public partial class Controls
 	{
-		public class HorizontalStackPanel:IStackPanel
+		public class HorizontalStackPanel: IScrollableStackPanel
 		{
 			
 
@@ -70,9 +70,8 @@ namespace Boost
 
 			public void AddControl(Control Cntrl)
 			{
-				Cntrl.Location = this.MainControl.Controls.Count > 0 ? new Point(0,this.LowestRightPointOfControls.Y) : new Point(0, 0);
+				Cntrl.Location = this.MainControl.Controls.Count > 0 ? new Point(this.RightestLowPointOfControls.X,0) : new Point(0, 0);
 
-				Controls.Add(Cntrl);
 				this.MainControl.Controls.Add(Cntrl);
 				SetAutoWidthIfNeeded();
 			}

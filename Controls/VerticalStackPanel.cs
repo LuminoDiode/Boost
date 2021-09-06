@@ -10,7 +10,7 @@ namespace Boost
 {
 	public partial class Controls
 	{
-		public class VerticalStackPanel:IStackPanel
+		public class VerticalStackPanel: IScrollableStackPanel
 		{
 			private bool _AutoWidth;
 			public bool AutoWidth
@@ -63,7 +63,6 @@ namespace Boost
 			{
 				Cntrl.Location = this.MainControl.Controls.Count > 0 ? new Point(0,this.LowestRightPointOfControls.Y) : new Point(0, 0);
 
-				Controls.Add(Cntrl);
 				this.MainControl.Controls.Add(Cntrl);
 				SetAutoWidthIfNeeded();
 			}

@@ -602,6 +602,33 @@ namespace Boost
 
 			return Out;
 		}
+		public static T[] SetSubArray<T>(T[][] Mtr, Point FirstPoint, Point SecondPoint, T value)
+		{
+			// Земля пухом долбоебу
+			if (Gen.NotLessThanZero(FirstPoint.X - 1) * Mtr[0].Length + Mtr[0].Length - FirstPoint.Y < Gen.NotLessThanZero(SecondPoint.X - 1) * Mtr[0].Length + SecondPoint.Y)
+				Gen.Swap(ref FirstPoint, ref SecondPoint); // ну в прочем, поможем ему
+														   //return new T[0]; // хотя можно и не помогать
+
+			// Колво на первой строке, кол-во на последний, полные строки между ними
+			T[] Out = new T[Mtr[0].Length - FirstPoint.X + SecondPoint.X + (SecondPoint.X - FirstPoint.X - 1) * Mtr[0].Length];
+
+			int row, col, AddIndex = 0;
+
+			//first row
+			for (row = FirstPoint.X; row == FirstPoint.X; row++)
+				for (col = FirstPoint.Y; col < SecondPoint.Y || (row < SecondPoint.X && col < Mtr[row].Length); col++)
+					Mtr[row][col]=value;
+			// other rows
+			for (; row < SecondPoint.X; row++)
+				for (col = 0; col < Mtr[row].Length; col++)
+					Mtr[row][col]=value;
+			// last row
+			for (; row == SecondPoint.X; row++)
+				for (col = 0; col < SecondPoint.Y; col++)
+					Mtr[row][col]=value;
+
+			return Out;
+		}
 		public static T[][] GetSubMatrix<T>(T[][]Mtr, Point LeftUpperCorner,Point RightDownCorner)
 		{
 			T[][] Out = Generate<T>(RightDownCorner.X - LeftUpperCorner.X, RightDownCorner.Y - LeftUpperCorner.Y);
@@ -609,6 +636,13 @@ namespace Boost
 				for (int col = 0; col < Out[row].Length; col++)
 					Out[row][col] = Mtr[LeftUpperCorner.X + row][LeftUpperCorner.Y + col];
 			return Out;
+		}
+		public static void SetSubMatrix<T>(T[][] Mtr, Point LeftUpperCorner, Point RightDownCorner, T value)
+		{
+			T[][] Out = Generate<T>(RightDownCorner.X - LeftUpperCorner.X, RightDownCorner.Y - LeftUpperCorner.Y);
+			for (int row = 0; row < Out.Length; row++)
+				for (int col = 0; col < Out[row].Length; col++)
+					Mtr[LeftUpperCorner.X + row][LeftUpperCorner.Y + col]= value;
 		}
 	}
 
