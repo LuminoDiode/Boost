@@ -5,8 +5,29 @@ using System.Diagnostics;
 
 namespace Boost
 {
-	class AdvancedConsoleManager
+	public class AdvancedConsoleManager
 	{
+		public static class QuickMessage
+		{
+			private static AdvancedConsoleManager Cons = new AdvancedConsoleManager();
+			public static void Debug(string msg)
+			{
+				Console.WriteLine(Cons.MagentaDebug + msg);
+			}
+			public static void Trace(string msg)
+			{
+				Console.WriteLine(Cons.GreenTrace + msg);
+			}
+			public static void Warning(string msg)
+			{
+				Console.WriteLine(Cons.YellowWarning + msg);
+			}
+			public static void Error(string msg)
+			{
+				Console.WriteLine(Cons.RedError + msg);
+			}
+		}
+
 		private const string DefaultConsoleTraceListener = "DefaultConsoleTraceListener";
 
 		public enum MESSAGE_TYPE
@@ -93,26 +114,26 @@ namespace Boost
 		public string MagentaDebug => PrintMagentaDebugAndReturnEmpty();
 		private string PrintMagentaDebugAndReturnEmpty()
 		{
-			this.Write("Debug", ConsoleColor.Magenta);
+			this.Write("Debug ", ConsoleColor.Magenta);
 			return string.Empty;
 		}
 		public string GreenTrace => PrintGreenTraceAndReturnEmpty();
 		private string PrintGreenTraceAndReturnEmpty()
 		{
-			this.Write("Trace", ConsoleColor.Green);
+			this.Write("Trace ", ConsoleColor.Green);
 			return string.Empty;
 		}
 
 		public string YellowWarning=> PrintYellowWarningAndReturnEmpty();
 		private string PrintYellowWarningAndReturnEmpty()
 		{
-			this.Write("Warning", ConsoleColor.Yellow);
+			this.Write("Warning ", ConsoleColor.Yellow);
 			return string.Empty;
 		}
 		public string RedError=> PrintRedErrorAndReturnEmpty();
 		private string PrintRedErrorAndReturnEmpty()
 		{
-			this.Write("Error", ConsoleColor.Red);
+			this.Write("Error ", ConsoleColor.Red);
 			return string.Empty;
 		}
 

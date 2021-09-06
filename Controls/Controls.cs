@@ -10,6 +10,12 @@ namespace Boost
 {
 	public partial class Controls
 	{
+		public static class Consts
+		{
+			public const int CheckBoxWidth = 15;
+			public const int GroupBoxLeft = 5;
+			public const int GroupBoxTop = 15;
+		}
 		public static Panel ToVerticalStackPanel(IList<Control> Controls)
 		{
 			Panel Out = new Panel();
@@ -30,6 +36,7 @@ namespace Boost
 			}
 			return Out;
 		}
+
 		public static Panel ToHorizontalStackPanel(IList<Control> Controls, int space = 0)
 		{
 			Panel Out = new Panel();
@@ -82,16 +89,7 @@ namespace Boost
 				set => textbox.Text = value;
 			}
 
-			public VarInputField(string Name, int TextBoxWidth)
-			{
-				label.Text = Name;
-				textbox.Width = TextBoxWidth;
-			}
-
-			public Panel GetControl()
-			{
-				return ToHorizontalStackPanel(new Control[] { label, EqualsSymb, textbox });
-			}
+			
 		}
 
 		public static ScrollableControl ToScrollableControl(IList<Control> Controls, Size ScrollableControlSize, int space = 5, int AddSpacesAtEnd = 1)
@@ -109,6 +107,25 @@ namespace Boost
 			}
 			Out.Controls.Add(new Panel { Size = new Size(0, AddSpacesAtEnd * space), Location = new Point(CurWid, CurHei) });
 			return Out;
+		}
+
+		public static Control MinBy(Control.ControlCollection collection,Func<Control,int> f)
+		{
+			Control min = collection[0];
+			foreach (var c in collection)
+			{
+				if (f((Control)c) < f(min)) min = (Control)c;
+			}
+			return min;
+		}
+		public static Control MaxBy(Control.ControlCollection collection, Func<Control, int> f)
+		{
+			Control max = collection[0];
+			foreach (var c in collection)
+			{
+				if (f((Control)c) > f(max)) max = (Control)c;
+			}
+			return max;
 		}
 
 	}

@@ -10,12 +10,8 @@ namespace Boost
 {
 	public partial class Controls
 	{
-		public class ScrollableStackPanel
+		public class VerticalStackPanel:IStackPanel
 		{
-			//public readonly ICollection<Control> Controls => this.MainControl.Co
-			private readonly ScrollableControl MainControl;
-			public ScrollableControl AsControl => this.MainControl;
-
 			private bool _AutoWidth;
 			public bool AutoWidth
 			{
@@ -50,18 +46,14 @@ namespace Boost
 				set => this.MainControl.Height = value;
 			}
 
-			private Point LowestElementLocation => this.MainControl.Controls.Count == 0 ? new Point(0, 0) : this.MainControl.Controls.Last().Location;
-			private Size LowestElementSize => this.MainControl.Controls.Count == 0 ? new Size(0, 0) : this.MainControl.Controls.Last().Size;
-			public Point LowestLeftPointOfControls => new Point(0, LowestElementLocation.Y + LowestElementSize.Height);
+			public static explicit operator ScrollableControl(VerticalStackPanel SSP) => SSP.MainControl;
+			public static explicit operator Control(VerticalStackPanel SSP) => SSP.MainControl;
 
-			public static explicit operator ScrollableControl(ScrollableStackPanel SSP) => SSP.MainControl;
-			public static explicit operator Control(ScrollableStackPanel SSP) => SSP.MainControl;
-
-			public ScrollableStackPanel(int height)
+			public VerticalStackPanel(int height)
 			{
 				this.MainControl = new ScrollableControl { Height = height, AutoScroll = true };
 			}
-			public ScrollableStackPanel(Control[] controls, int height)
+			public VerticalStackPanel(IEnumerable<Control> controls, int height)
 			{
 				foreach (Control c in controls) this.MainControl.Controls.Add(c);
 				this.MainControl = new ScrollableControl { Height = height, AutoScroll = true };
@@ -69,13 +61,12 @@ namespace Boost
 
 			public void AddControl(Control Cntrl)
 			{
-				Cntrl.Location = this.MainControl.Controls.Count > 0 ? this.LowestLeftPointOfControls : new Point(0, 0);
+				Cntrl.Location = this.MainControl.Controls.Count > 0 ? new Point(0,this.LowestRightPointOfControls.Y) : new Point(0, 0);
 
 				Controls.Add(Cntrl);
 				this.MainControl.Controls.Add(Cntrl);
 				SetAutoWidthIfNeeded();
 			}
-
 			public void AddControl(Control Cntrl, int Index)
 			{
 				if (Index > (this.MainControl.Controls.Count - 1))
@@ -84,7 +75,6 @@ namespace Boost
 					return;
 				}
 				Cntrl.Location = this.MainControl.Controls[Index].Location;
-				Controls.Insert(Index, Cntrl);
 				this.MainControl.Controls.Add(Cntrl);
 				for (int i = Index + 1; i < this.MainControl.Controls.Count; i++)
 				{
@@ -106,22 +96,16 @@ namespace Boost
 				}
 			}
 
-			public void RemoveControl(int Index)
-			{
+			
 
-			}
-
-			public Control GetControl(int Index)
-			{
-				return this.MainControl.Controls[Index];
-			}
+			
 			private void SetAutoWidthIfNeeded()
 			{
 				if (this.AutoWidth) this.SetAutoWidth();
 			}
 			private void SetAutoWidth()
 			{
-				if (this.MainControl.Controls.Count > 0) this.MainControl.Width = ((ICollection<Control>)this.MainControl.Controls).Max(x => x.Width) + 17;
+				if (this.MainControl.Controls.Count > 0) this.MainControl.Width = Boost.Controls.MaxBy(this.MainControl.Controls,x=>x.Width).Width+17;
 			}
 		}
 	}
