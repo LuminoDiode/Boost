@@ -14,20 +14,24 @@ namespace Boost
 		static extern bool AllocConsole();
 		public static void Main()
 		{
-			Console.WriteLine(new AdvancedConsoleManager().GreenTrace + " Some Info");
-			Console.WriteLine(new AdvancedConsoleManager().RedError + " Some Info");
-			Console.WriteLine(new AdvancedConsoleManager().YellowWarning + " Some Info");
-			Console.WriteLine(new AdvancedConsoleManager().MagentaDebug + " Some Info");
-			new AdvancedConsoleManager().Write("Some info\n", ConsoleColor.Cyan);
-			Graph.Vertex v1 = new Graph.Vertex();
-			Graph.Vertex v2 = new Graph.Vertex();
-			Graph.Vertex v3 = new Graph.Vertex();
+			Random r = new();
+			var arr = new double[53].Select(x => r.NextDouble()).ToArray();
+			foreach (var i in arr) Console.WriteLine(i + " ");
+			var EvenIndexEls = new double[(int)((float)arr.Length / 2+0.5)];
+			var NotEvenIndexEls = new double[arr.Length / 2 ==0? arr.Length / 2 : arr.Length / 2 +1];
+			for (var i = 0; i < arr.Length; i++)
+			{
+				if (i % 2 == 0) EvenIndexEls[i / 2] = arr[i];
+				else EvenIndexEls[i / 2] = arr[i];
+			}
 
-			v1.SetDistanceToVertex(v2, 100);
-			v1.SetDistanceToVertex(v3, 300);
-			v2.SetDistanceToVertex(v3, 50);
-
-			Console.WriteLine(Graph.GetShortestWay(v1, v3));
+			Array.Sort(EvenIndexEls); Array.Sort(NotEvenIndexEls);
+			for(int i = 0; i < arr.Length; i++)
+			{
+				arr[i]= i%2==0? EvenIndexEls[i/2] : NotEvenIndexEls[i/2];
+			}
+			foreach (var i in arr) Console.WriteLine(i + " ");
+			Console.ReadLine();
 		}
 	}
 }

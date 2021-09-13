@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Boost
 {
-	class NumericMatrix
+	public class NumericMatrix
 	{
 		abstract class Exceptions
 		{
@@ -45,7 +45,7 @@ namespace Boost
 		// has null raws
 		// not numeric
 		// diff lens
-		private static bool ValidateInputMatrix<T>(T[][] NumericTypeMatrix, out UnableToCreateErrors Error)
+		private static bool InputMatrixIsValid<T>(T[][] NumericTypeMatrix, out UnableToCreateErrors Error)
 		{
 			Error = 0;
 			/*
@@ -81,61 +81,61 @@ namespace Boost
 		public NumericMatrix(byte[][] Mtr)
 		{
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(Mtr, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(Mtr, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(Mtr);
 		}
 		public NumericMatrix(sbyte[][] Mtr)
 		{
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(Mtr, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(Mtr, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(Mtr);
 		}
 		public NumericMatrix(short[][] Mtr)
 		{
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(Mtr, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(Mtr, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(Mtr);
 		}
 		public NumericMatrix(ushort[][] Mtr)
 		{
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(Mtr, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(Mtr, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(Mtr);
 		}
 		public NumericMatrix(int[][] Mtr)
 		{
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(Mtr, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(Mtr, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(Mtr);
 		}
 		public NumericMatrix(uint[][] Mtr)
 		{
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(Mtr, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(Mtr, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(Mtr);
 		}
 		public NumericMatrix(long[][] Mtr)
 		{
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(Mtr, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(Mtr, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(Mtr);
 		}
 		public NumericMatrix(ulong[][] Mtr)
 		{
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(Mtr, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(Mtr, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(Mtr);
 		}
 		public NumericMatrix(float[][] Mtr)
 		{
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(Mtr, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(Mtr, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(Mtr);
 		}
 		public NumericMatrix(double[][] Mtr)
 		{
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(Mtr, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(Mtr, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(Mtr);
 		}
 
@@ -143,70 +143,70 @@ namespace Boost
 		{
 			var JaggedCasted = Matrix.ToJugged(Mtr);
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(JaggedCasted, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(JaggedCasted, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(JaggedCasted);
 		}
 		public NumericMatrix(sbyte[,] Mtr)
 		{
 			var JaggedCasted = Matrix.ToJugged(Mtr);
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(JaggedCasted, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(JaggedCasted, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(JaggedCasted);
 		}
 		public NumericMatrix(short[,] Mtr)
 		{
 			var JaggedCasted = Matrix.ToJugged(Mtr);
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(JaggedCasted, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(JaggedCasted, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(JaggedCasted);
 		}
 		public NumericMatrix(ushort[,] Mtr)
 		{
 			var JaggedCasted = Matrix.ToJugged(Mtr);
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(JaggedCasted, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(JaggedCasted, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(JaggedCasted);
 		}
 		public NumericMatrix(int[,] Mtr)
 		{
 			var JaggedCasted = Matrix.ToJugged(Mtr);
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(JaggedCasted, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(JaggedCasted, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(JaggedCasted);
 		}
 		public NumericMatrix(uint[,] Mtr)
 		{
 			var JaggedCasted = Matrix.ToJugged(Mtr);
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(JaggedCasted, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(JaggedCasted, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(JaggedCasted);
 		}
 		public NumericMatrix(long[,] Mtr)
 		{
 			var JaggedCasted = Matrix.ToJugged(Mtr);
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(JaggedCasted, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(JaggedCasted, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(JaggedCasted);
 		}
 		public NumericMatrix(ulong[,] Mtr)
 		{
 			var JaggedCasted = Matrix.ToJugged(Mtr);
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(JaggedCasted, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(JaggedCasted, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(JaggedCasted);
 		}
 		public NumericMatrix(float[,] Mtr)
 		{
 			var JaggedCasted = Matrix.ToJugged(Mtr);
 			UnableToCreateErrors OnCreateError;
-			if (ValidateInputMatrix(JaggedCasted, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(JaggedCasted, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(JaggedCasted);
 		}
 		public NumericMatrix(double[,] Mtr)
 		{
 			var JaggedCasted = Matrix.ToJugged(Mtr);
 			UnableToCreateErrors OnCreateError;
-			if (!ValidateInputMatrix(JaggedCasted, out OnCreateError)) throw new ArgumentException();
+			if (!InputMatrixIsValid(JaggedCasted, out OnCreateError)) throw new ArgumentException();
 			CreateThisFromNumeric(JaggedCasted);
 		}
 
@@ -266,7 +266,7 @@ namespace Boost
 
 			for(int i1=0;i1<Mtr1.NumOfRows;i1++)
 				for (int i2 = 0; i2 < Mtr1.NumOfRows; i2++)
-					if (Mtr1.ThisMatrix[i1][i2] != Mtr2.ThisMatrix[i1][i2])
+					if (!Mtr1.ThisMatrix[i1][i2].Equals(Mtr2.ThisMatrix[i1][i2]))
 						return false;
 
 			return true;
@@ -365,7 +365,7 @@ namespace Boost
 		}
 		private static NumericMatrix Mult(in NumericMatrix Mtr1, in NumericMatrix Mtr2)
 		{
-			if (IsMultAble(Mtr1, Mtr2)) throw new ArgumentException();
+			if (!IsMultAble(Mtr1, Mtr2)) throw new ArgumentException();
 
 			NumericMatrix Out = new NumericMatrix(Mtr1.NumOfCols, Mtr2.NumOfRows);
 
@@ -388,15 +388,14 @@ namespace Boost
 			NumericMatrix Out = Mtr.Clone();
 
 			for (int i1 = 0; i1 < Mtr.NumOfRows; i1++)
-			for (int i2 = 0; i2 < Mtr.NumOfCols; i2++)
-				Out.ThisMatrix[i1][i2] *= Val;
+				for (int i2 = 0; i2 < Mtr.NumOfCols; i2++)
+					Out.ThisMatrix[i1][i2] *= Val;
 
 			return Out;
 		}
 		private static NumericMatrix Sum(NumericMatrix Mtr1, NumericMatrix Mtr2)
 		{
-			// if dimensions equals
-			if (IsSumAble(Mtr1, Mtr2)) throw new ArgumentException();
+			if (!IsSumAble(Mtr1, Mtr2)) throw new ArgumentException();
 
 			NumericMatrix Out = Mtr1.Clone();
 

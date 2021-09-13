@@ -18,6 +18,12 @@ namespace Boost
 			private readonly RadioButton RadioButton;
 			private readonly TextBox TextBox;
 
+			public event EventHandler TextBoxTextChanged
+			{
+				add => this.TextBox.TextChanged += value;
+				remove => this.TextBox.TextChanged -= value;
+			}
+
 			public enum BUTTON_TYPE
 			{
 				CHECK,
@@ -57,10 +63,23 @@ namespace Boost
 					return false; // ??
 				}
 			}
-			public string Text
+			public string TextBoxText
 			{
 				get => this.TextBox.Text;
 				set => this.TextBox.Text = value;
+			}
+			public string ButtonText
+			{
+				get
+				{
+					if (this.ButtonType == BUTTON_TYPE.CHECK) return this.CheckBox.Text;
+					if (this.ButtonType == BUTTON_TYPE.RADIO) return this.RadioButton.Text;
+					return string.Empty; // ??
+				}
+				set
+				{
+					this.CheckBox.Text = this.RadioButton.Text = value;
+				}
 			}
 
 			public Panel AsControl =>this.MainPanel;

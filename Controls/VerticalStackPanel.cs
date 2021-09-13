@@ -51,18 +51,20 @@ namespace Boost
 
 			public VerticalStackPanel(int height)
 			{
-				this.MainControl = new ScrollableControl { Height = height, AutoScroll = true };
+				this.MainControl = new ScrollableControl { Height = height, AutoScroll = true,Visible=true };
 			}
 			public VerticalStackPanel(IEnumerable<Control> controls, int height)
 			{
-				foreach (Control c in controls) this.MainControl.Controls.Add(c);
-				this.MainControl = new ScrollableControl { Height = height, AutoScroll = true };
+				this.MainControl = new ScrollableControl { Height = height, AutoScroll = true,Visible=true };
+				foreach (Control c in controls) {
+					this.AddControl(c);
+				}
 			}
 
 			public void AddControl(Control Cntrl)
 			{
 				Cntrl.Location = this.MainControl.Controls.Count > 0 ? new Point(0,this.LowestRightPointOfControls.Y) : new Point(0, 0);
-
+				Console.WriteLine($"Added control to {Cntrl.Location}");
 				this.MainControl.Controls.Add(Cntrl);
 				SetAutoWidthIfNeeded();
 			}
