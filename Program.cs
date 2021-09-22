@@ -4,6 +4,9 @@ using System.Linq;
 using System.Numerics;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+
 using System.Runtime.InteropServices;
 
 namespace Boost
@@ -14,24 +17,80 @@ namespace Boost
 		static extern bool AllocConsole();
 		public static void Main()
 		{
-			Random r = new();
-			var arr = new double[53].Select(x => r.NextDouble()).ToArray();
-			foreach (var i in arr) Console.WriteLine(i + " ");
-			var EvenIndexEls = new double[(int)((float)arr.Length / 2+0.5)];
-			var NotEvenIndexEls = new double[arr.Length / 2 ==0? arr.Length / 2 : arr.Length / 2 +1];
-			for (var i = 0; i < arr.Length; i++)
-			{
-				if (i % 2 == 0) EvenIndexEls[i / 2] = arr[i];
-				else EvenIndexEls[i / 2] = arr[i];
-			}
+			Random r = new Random();
 
-			Array.Sort(EvenIndexEls); Array.Sort(NotEvenIndexEls);
-			for(int i = 0; i < arr.Length; i++)
+			var point1 = DateTime.Now.Ticks;
+			Func1();
+			var point2 = DateTime.Now.Ticks;
+
+			Console.WriteLine(point2 - point1);
+			point1 = DateTime.Now.Ticks;
+			Func1();
+			point2 = DateTime.Now.Ticks;
+
+			Console.WriteLine(point2 - point1);
+			point1 = DateTime.Now.Ticks;
+			Func1();
+			point2 = DateTime.Now.Ticks;
+
+			Console.WriteLine(point2 - point1);
+
+			point1 = DateTime.Now.Ticks;
+			Func2();
+			point2 = DateTime.Now.Ticks;
+
+			Console.WriteLine(point2 - point1);
+			point1 = DateTime.Now.Ticks;
+			Func2();
+			point2 = DateTime.Now.Ticks;
+
+			Console.WriteLine(point2 - point1);
+			point1 = DateTime.Now.Ticks;
+			Func2();
+			point2 = DateTime.Now.Ticks;
+
+			Console.WriteLine(point2 - point1);
+			point1 = DateTime.Now.Ticks;
+			Func2();
+			point2 = DateTime.Now.Ticks;
+
+			Console.WriteLine(point2 - point1);
+		}
+
+
+		public static void Func1()
+		{
+			NumericMatrix m1 = new double[][]
 			{
-				arr[i]= i%2==0? EvenIndexEls[i/2] : NotEvenIndexEls[i/2];
-			}
-			foreach (var i in arr) Console.WriteLine(i + " ");
-			Console.ReadLine();
+				new double[]{1,2,3},
+				new double[]{4,5,6},
+				new double[]{7,8,9}
+			};
+			for (int i = 0; i < 1000; i++) m1 = m1 * m1;
+			Console.WriteLine(m1.ToString());
+		}
+
+		public static void Func2()
+		{
+			NumericMatrix m1 = new double[][]
+			{
+				new double[]{1,2,3},
+				new double[]{4,5,6},
+				new double[]{7,8,9}
+			};
+			NumericMatrix m2 = m1.Clone();
+
+			Parallel.Invoke(
+			() =>
+			{
+				for (int i = 0; i < 500; i++) m2 = m2 * m2;
+			},
+			() =>
+			{
+				for (int i = 0; i < 499; i++) m1 = m1 * m1;
+			});
+
+			Console.WriteLine((m1*m2).ToString());
 		}
 	}
 }

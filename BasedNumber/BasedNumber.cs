@@ -42,6 +42,8 @@ namespace Boost
 		public string DecString => this.ValueString(10);
 		public string OctString => this.ValueString(8);
 		public string BinString => this.ValueString(2);
+		public string AnyBaseString(int Base) =>
+			BasedNumberStatic.FromDecimalToNewBase(this.DecimalValue, Base);
 
 		public static implicit operator BasedNumber<T>(T Val) => new BasedNumber<T>(Val);
 		public static explicit operator double(BasedNumber<T> bn) => bn.DecimalValue;

@@ -17,14 +17,14 @@ namespace Boost
 
 			return Out;
 		}
-		public static T[][] AllCombinationsOfElements<T>(in T[] OriginalArray)
+		public static T[][] AllCombinationsOfElements<T>(this T[] OriginalArray)
 		{
 			T[][] Out = new T[Fact(OriginalArray.Length)][];
 			int CurrentOutId=0;
 			AllCombinationsOfElements(OriginalArray, new T[OriginalArray.Length], new bool[OriginalArray.Length], 0, ref Out, ref CurrentOutId);
 			return Out;
 		}
-		public static void AllCombinationsOfElements<T>(T[] OriginalArray, T[] OnGoing, bool[] ElementUsed, int CurrentId, ref T[][] ArrayCollector, ref int CurrentAddingId)
+		private static void AllCombinationsOfElements<T>(T[] OriginalArray, T[] OnGoing, bool[] ElementUsed, int CurrentId, ref T[][] ArrayCollector, ref int CurrentAddingId)
 		{
 			if (CurrentId==OnGoing.Length) { ArrayCollector[CurrentAddingId++] = Arr.Clone(OnGoing); return;}
 
@@ -41,7 +41,8 @@ namespace Boost
 			}
 		}
 
-		public static int Fact(int val)
+
+		private static int Fact(int val)
 		{
 			int result = 1;
 			for (int i = 2; i <= val; i++) result *= i;
