@@ -11,86 +11,78 @@ using System.Runtime.InteropServices;
 
 namespace Boost
 {
+	
 	public static class Program
 	{
-		[DllImport("kernel32.dll")]
-		static extern bool AllocConsole();
+		public static int[] GenRandArr(int len)
+		{
+			Random rnd = new Random();
+			int[] result = new int[len];
+			for (int i = 0; i < len; i++) result[i] = rnd.Next(0, byte.MaxValue);
+			return result;
+		}
+
 		public static void Main()
 		{
-			Random r = new Random();
-
-			var point1 = DateTime.Now.Ticks;
-			Func1();
-			var point2 = DateTime.Now.Ticks;
-
-			Console.WriteLine(point2 - point1);
-			point1 = DateTime.Now.Ticks;
-			Func1();
-			point2 = DateTime.Now.Ticks;
-
-			Console.WriteLine(point2 - point1);
-			point1 = DateTime.Now.Ticks;
-			Func1();
-			point2 = DateTime.Now.Ticks;
-
-			Console.WriteLine(point2 - point1);
-
-			point1 = DateTime.Now.Ticks;
-			Func2();
-			point2 = DateTime.Now.Ticks;
-
-			Console.WriteLine(point2 - point1);
-			point1 = DateTime.Now.Ticks;
-			Func2();
-			point2 = DateTime.Now.Ticks;
-
-			Console.WriteLine(point2 - point1);
-			point1 = DateTime.Now.Ticks;
-			Func2();
-			point2 = DateTime.Now.Ticks;
-
-			Console.WriteLine(point2 - point1);
-			point1 = DateTime.Now.Ticks;
-			Func2();
-			point2 = DateTime.Now.Ticks;
-
-			Console.WriteLine(point2 - point1);
-		}
-
-
-		public static void Func1()
-		{
-			NumericMatrix m1 = new double[][]
+			int[][] TestMtr = new int[][]
 			{
-				new double[]{1,2,3},
-				new double[]{4,5,6},
-				new double[]{7,8,9}
+				new int[] { 1, 2, 3 },
+				new int[] { 1, 2, 3 },
+				new int[] { 1, 2, 3 },
 			};
-			for (int i = 0; i < 1000; i++) m1 = m1 * m1;
-			Console.WriteLine(m1.ToString());
+			Console.WriteLine(Matrix.GetMainDiag(TestMtr).Sum());
 		}
+	}
 
-		public static void Func2()
+	static class QSort
+	{
+		/// <summary>
+		/// Быстрая сортировка.
+		/// </summary>
+		/// <param name="Arr"></param>
+		/// <returns></returns>
+		public static T[] Sort<T>(T[] Arr) where T : IComparable //Debugged
 		{
-			NumericMatrix m1 = new double[][]
-			{
-				new double[]{1,2,3},
-				new double[]{4,5,6},
-				new double[]{7,8,9}
-			};
-			NumericMatrix m2 = m1.Clone();
+			if (Arr.Length < 2) return Arr;
+			T[] LeftArr; T[] RightArr; T BaseEl;
+			SplitArr(Arr, out LeftArr, out RightArr, out BaseEl);
+			return CombineArrs(Sort(LeftArr), Sort(RightArr), BaseEl);
+		}
+		private static void SplitArr<T>(T[] Arr, out T[] LeftArr, out T[] RightArr, out T BaseEl) where T : IComparable
+		{
+			List<T> LeftArrO = new List<T>();
+			List<T> RightArrO = new List<T>();
+			int BaseIndex = Arr.Length / 2, i;
 
-			Parallel.Invoke(
-			() =>
+			for (i = 0; i < BaseIndex; i++)
 			{
-				for (int i = 0; i < 500; i++) m2 = m2 * m2;
-			},
-			() =>
+				if (Comparer<T>.Default.Compare(Arr[i], Arr[BaseIndex]) < 0)
+					LeftArrO.Add(Arr[i]);
+				else
+					RightArrO.Add(Arr[i]);
+			}
+			for (i = BaseIndex + 1; i < Arr.Length; i++)
 			{
-				for (int i = 0; i < 499; i++) m1 = m1 * m1;
-			});
+				if (Comparer<T>.Default.Compare(Arr[i], Arr[BaseIndex]) < 0)
+					LeftArrO.Add(Arr[i]);
+				else
+					RightArrO.Add(Arr[i]);
+			}
 
-			Console.WriteLine((m1*m2).ToString());
+			LeftArr = LeftArrO.ToArray();
+			RightArr = RightArrO.ToArray();
+			BaseEl = Arr[BaseIndex];
+		}
+		private static T[] CombineArrs<T>(T[] LeftArr, T[] RightArr, T BaseEl) //Debugged
+		{
+			T[] Out = new T[LeftArr.Length + RightArr.Length + 1];
+			int i;
+
+			for (i = 0; i < LeftArr.Length; i++) Out[i] = LeftArr[i];
+			Out[LeftArr.Length] = BaseEl;
+			for (i = LeftArr.Length + 1; i < Out.Length; i++) Out[i] = RightArr[i - (LeftArr.Length + 1)];
+
+			return Out;
 		}
 	}
 }

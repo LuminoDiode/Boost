@@ -223,7 +223,7 @@ namespace Boost
 			{
 				Out = new T[Mtr.Length];
 
-				for (int i = Mtr[0].Length; i >= 0; i--)
+				for (int i = Mtr[0].Length-1; i >= 0; i--)
 					Out[i] = Mtr[i][i];
 			}
 			else if (Mtr.Length > Mtr[0].Length) // more rows = switch rows
